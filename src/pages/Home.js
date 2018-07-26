@@ -81,6 +81,7 @@ export default class Home extends React.Component {
 
     const resultItems = !!results && results.map((r) => {
       let id = _.nth(r.url.split("/"),-2);
+      return <Segment vertical key={r.name}><Link to={`/person/${id}`}>{r.name}</Link></Segment>;
     });
 
     const resultsSection = (
