@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Image, Header, Form, Input, Button, Segment, Pagination, Dimmer, Loader, Message } from 'semantic-ui-react';
 import axios from 'axios';
+import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 import yodaImg from '../assets/yoda.png';
 import './Home.css';
@@ -77,6 +79,11 @@ export default class Home extends React.Component {
       totalPages={pages}
     />);
 
+    const resultItems = !!results && results.map((r) => {
+      let id = _.nth(r.url.split("/"),-2);
+      return <Segment vertical><Link to={`/person/${id}`}>{r.name}</Link></Segment>;
+    });
+
     const resultsSection = (
       <Segment stacked style={{ marginBottom: '2em' }}>
         <Message
@@ -84,6 +91,9 @@ export default class Home extends React.Component {
           hidden={pages !== 0}
           header='Results found no!'
         />
+        <Container textAlign='left'>
+          {resultItems}
+        </Container>
         { pages !== 0 ? pagination : '' }
         <Dimmer active={loading}>
           <Loader />
